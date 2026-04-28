@@ -26,11 +26,11 @@ export default function Login({
         <>
             <Head title="Log in" />
 
-            <Form
-                {...store.form()}
-                resetOnSuccess={['password']}
-                className="flex flex-col gap-6"
-            >
+<Form
+    method="post"
+    action="/login"
+    className="flex flex-col gap-6"
+>
                 {({ processing, errors }) => (
                     <>
                         <div className="grid gap-6">

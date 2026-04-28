@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { LayoutGrid,Users } from 'lucide-react';
+import { LayoutGrid, Users, QrCode, Calendar } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -12,28 +12,37 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
-import { index as userIndexRoute } from '@/routes/users';
 import type { NavItem } from '@/types';
 
-
-
-
 export function AppSidebar() {
-    const {auth} = usePage().props;
+    const { auth } = usePage().props;
+
     const mainNavItems: NavItem[] = [
         {
             title: 'Dashboard',
-            href: dashboard(),
+            href: '/dashboard',
             icon: LayoutGrid,
         },
     ];
 
-    if(auth.user.role === 'admin') {
+    // Menu untuk admin
+    if ((auth.user as any).role === 'admin') {
         mainNavItems.push({
-            title: 'Manage User',
-            href: userIndexRoute(),
+            title: 'Setting Shift',
+            href: '/shifts',
+            icon: Calendar,
+        });
+
+        mainNavItems.push({
+            title: 'Data Karyawan',
+            href: '/users',
             icon: Users,
+        });
+
+        mainNavItems.push({
+            title: 'Absensi Kamera',
+            href: '/dashboard/scan',
+            icon: QrCode,
         });
     }
 
@@ -43,7 +52,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href={dashboard()} prefetch>
+                            <Link href="/dashboard" prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>

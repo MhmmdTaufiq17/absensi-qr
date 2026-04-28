@@ -1,38 +1,36 @@
-    import { Head } from '@inertiajs/react';
-    import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
-    import { user } from '@/routes/dashboard';
+import { Head } from '@inertiajs/react';
+import QRCodeOriginal from 'react-qr-code';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-    export default function Dashboard() {
-        return (
-            <>
-                <Head title="Dashboard" />
-                <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                    <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                        <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                            <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                        </div>
-                        <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                            <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                        </div>
-                        <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                            <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                        </div>
-                    </div>
-                    <div className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                </div>
-            </>
-        );
+const QRCode = (QRCodeOriginal as any).default || QRCodeOriginal;
+
+interface Props {
+    user: {
+        id: number;
+        name: string;
+        email: string;
     }
+}
 
+export default function UserDashboard({ user }: Props) {
+    return (
+        <div className="p-6 flex flex-col items-center justify-center min-h-[80vh] space-y-6">
+            <Head title="My QR Code" />
 
+            <div className="text-center space-y-2">
+                <h1 className="text-2xl font-bold">Halo, {user.name}!</h1>
+                <p className="text-muted-foreground text-sm">Tunjukkan QR Code ini ke petugas scanner untuk melakukan absensi.</p>
+            </div>
 
-    Dashboard.layout = {
-        breadcrumbs: [
-            {
-                title: 'Dashboard',
-                href: user(),
-            },
-        ],
-    };
+            <Card className="w-full max-w-sm border shadow-none">
+                <CardHeader className="text-center">
+                    <CardTitle className="text-xs uppercase tracking-widest text-muted-foreground">My Attendance QR</CardTitle>
+                </CardHeader>
+                <CardContent className="flex justify-center p-6 bg-white rounded-b-xl">
+                    <QRCode value={`user:${user.id}`} size={200} />
+                </CardContent>
+            </Card>
+
+        </div>
+    );
+}

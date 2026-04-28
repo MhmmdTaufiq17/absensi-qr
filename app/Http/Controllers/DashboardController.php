@@ -11,12 +11,17 @@ class DashboardController extends Controller
 {
     public function user ()
     {
-        return Inertia::render('Dashboard/User');
+        return Inertia::render('Dashboard/User', [
+            'user' => Auth::user()
+        ]);
     }
 
     public function admin ()
     {
-        return Inertia::render('Dashboard/Admin');
+        $activeShift = \App\Models\Shift::where('is_active', true)->first();
+        return Inertia::render('Dashboard/Admin', [
+            'activeShift' => $activeShift
+        ]);
     }
 
     public function dashboard ()

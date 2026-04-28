@@ -1,36 +1,59 @@
-import { Head } from '@inertiajs/react';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
-import { admin } from '@/routes/dashboard';
+import { Head, Link } from '@inertiajs/react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Users, Calendar, Camera } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
-export default function Dashboard() {
+export default function AdminDashboard() {
     return (
-        <>
-            <Head title="Admin" />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
+        <div className="p-6 space-y-6">
+            <Head title="Admin Dashboard" />
+
+            <div className="flex items-center justify-between">
+                <div>
+                    <h1 className="text-2xl font-bold tracking-tight">Admin Panel</h1>
+                    <p className="text-sm text-muted-foreground">Monitor dan kelola sistem absensi QR.</p>
                 </div>
-                <div className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                </div>
+                <Link href="/dashboard/scan">
+                    <Button className="flex items-center gap-2 shadow-sm">
+                        <Camera className="h-4 w-4" />
+                        Buka Absensi Kamera
+                    </Button>
+                </Link>
             </div>
-        </>
+
+            <div className="grid gap-4 md:grid-cols-2">
+                <Link href="/users">
+                    <Card className="hover:bg-muted/50 transition-colors cursor-pointer border shadow-none">
+                        <CardHeader className="flex flex-row items-center justify-between pb-2">
+                            <CardTitle className="text-sm font-medium">Data Karyawan</CardTitle>
+                            <Users className="h-4 w-4 text-muted-foreground" />
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold">Kelola</div>
+                            <p className="text-xs text-muted-foreground">Tambah, edit, dan atur shift karyawan.</p>
+                        </CardContent>
+                    </Card>
+                </Link>
+
+                <Link href="/shifts">
+                    <Card className="hover:bg-muted/50 transition-colors cursor-pointer border shadow-none">
+                        <CardHeader className="flex flex-row items-center justify-between pb-2">
+                            <CardTitle className="text-sm font-medium">Setting Shift</CardTitle>
+                            <Calendar className="h-4 w-4 text-muted-foreground" />
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold">Atur Jam</div>
+                            <p className="text-xs text-muted-foreground">Konfigurasi window waktu masuk/pulang.</p>
+                        </CardContent>
+                    </Card>
+                </Link>
+            </div>
+        </div>
     );
 }
 
-Dashboard.layout = {
+AdminDashboard.layout = {
     breadcrumbs: [
-        {
-            title: 'admin',
-            href: admin(),
-        },
+        { title: 'Dashboard', href: '/dashboard' },
     ],
 };
