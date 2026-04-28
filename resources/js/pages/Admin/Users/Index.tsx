@@ -61,9 +61,9 @@ export default function UsersIndex({ users, shifts }: Props) {
         };
 
         if (editingUser) {
-            put(`/users/${editingUser.id}`, options);
+            put(`/dashboard/users/${editingUser.id}`, options);
         } else {
-            post('/users', options);
+            post('/dashboard/users', options);
         }
     };
 
@@ -81,7 +81,7 @@ export default function UsersIndex({ users, shifts }: Props) {
 
     const handleDelete = (user: User) => {
         if (!confirm(`Hapus user "${user.name}"?`)) return;
-        router.delete(`/users/${user.id}`, {
+        router.delete(`/dashboard/users/${user.id}`, {
             onSuccess: () => toast.success('Berhasil dihapus'),
         });
     };
@@ -198,6 +198,6 @@ export default function UsersIndex({ users, shifts }: Props) {
 UsersIndex.layout = {
     breadcrumbs: [
         { title: 'Dashboard', href: '/dashboard' },
-        { title: 'Data Karyawan', href: '/users' },
+        { title: 'Data Karyawan', href: '/dashboard/users' },
     ],
 };

@@ -57,9 +57,9 @@ export default function ShiftsIndex({ shifts }: Props) {
         };
 
         if (editingShift) {
-            put(`/shifts/${editingShift.id}`, options);
+            put(`/dashboard/shifts/${editingShift.id}`, options);
         } else {
-            post('/shifts', options);
+            post('/dashboard/shifts', options);
         }
     };
 
@@ -77,13 +77,13 @@ export default function ShiftsIndex({ shifts }: Props) {
 
     const handleDelete = (shift: Shift) => {
         if (!confirm(`Hapus shift "${shift.name}"?`)) return;
-        router.delete(`/shifts/${shift.id}`, {
+        router.delete(`/dashboard/shifts/${shift.id}`, {
             onSuccess: () => toast.success('Berhasil dihapus'),
         });
     };
 
     const handleToggle = (shift: Shift) => {
-        router.post(`/shifts/${shift.id}/toggle`, {}, {
+        router.post(`/dashboard/shifts/${shift.id}/toggle`, {}, {
             onSuccess: () => toast.success('Status diperbarui'),
         });
     };

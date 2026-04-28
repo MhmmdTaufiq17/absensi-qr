@@ -29,13 +29,13 @@ export function AppSidebar() {
     if ((auth.user as any).role === 'admin') {
         mainNavItems.push({
             title: 'Setting Shift',
-            href: '/shifts',
+            href: '/dashboard/shifts',
             icon: Calendar,
         });
 
         mainNavItems.push({
             title: 'Data Karyawan',
-            href: '/users',
+            href: '/dashboard/users',
             icon: Users,
         });
 

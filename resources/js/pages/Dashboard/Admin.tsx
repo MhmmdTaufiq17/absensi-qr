@@ -22,7 +22,7 @@ export default function AdminDashboard() {
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
-                <Link href="/users">
+                <Link href="/dashboard/users">
                     <Card className="hover:bg-muted/50 transition-colors cursor-pointer border shadow-none">
                         <CardHeader className="flex flex-row items-center justify-between pb-2">
                             <CardTitle className="text-sm font-medium">Data Karyawan</CardTitle>
@@ -35,7 +35,7 @@ export default function AdminDashboard() {
                     </Card>
                 </Link>
 
-                <Link href="/shifts">
+                <Link href="/dashboard/shifts">
                     <Card className="hover:bg-muted/50 transition-colors cursor-pointer border shadow-none">
                         <CardHeader className="flex flex-row items-center justify-between pb-2">
                             <CardTitle className="text-sm font-medium">Setting Shift</CardTitle>
