@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ScannerController;
 use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AttendanceController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 
@@ -29,6 +30,8 @@ Route::middleware(['auth', 'role:admin'])->group(function(){
     Route::put('/dashboard/shifts/{shift}', [ShiftController::class, 'update'])->name('shifts.update');
     Route::delete('/dashboard/shifts/{shift}', [ShiftController::class, 'destroy'])->name('shifts.destroy');
     Route::post('/dashboard/shifts/{shift}/toggle', [ShiftController::class, 'toggleActive'])->name('shifts.toggle');
+    // Attendances
+    Route::get('/dashboard/attendances', [AttendanceController::class, 'index'])->name('attendances.index');
 });
 
 Route::get('/dashboard/scan', [ScannerController::class, 'scans'])->name('scans');

@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { LayoutGrid, Users, QrCode, Calendar } from 'lucide-react';
+import { LayoutGrid, Users, QrCode, Calendar, ClipboardList } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -11,6 +11,7 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
+    SidebarSeparator,
 } from '@/components/ui/sidebar';
 import type { NavItem } from '@/types';
 
@@ -25,24 +26,32 @@ export function AppSidebar() {
         },
     ];
 
+    const adminNavItems: NavItem[] = [];
+
     // Menu untuk admin
     if ((auth.user as any).role === 'admin') {
-        mainNavItems.push({
+        adminNavItems.push({
             title: 'Setting Shift',
             href: '/dashboard/shifts',
             icon: Calendar,
         });
 
-        mainNavItems.push({
+        adminNavItems.push({
             title: 'Data Karyawan',
             href: '/dashboard/users',
             icon: Users,
         });
 
-        mainNavItems.push({
+        adminNavItems.push({
             title: 'Absensi Kamera',
             href: '/dashboard/scan',
             icon: QrCode,
+        });
+
+        adminNavItems.push({
+            title: 'Data Absensi',
+            href: '/dashboard/attendances',
+            icon: ClipboardList,
         });
     }
 
@@ -60,8 +69,15 @@ export function AppSidebar() {
                 </SidebarMenu>
             </SidebarHeader>
 
-            <SidebarContent>
-                <NavMain items={mainNavItems} />
+            <SidebarContent className="gap-0">
+                <NavMain items={mainNavItems} title="Utama" />
+                
+                {adminNavItems.length > 0 && (
+                    <>
+                        <SidebarSeparator className="mx-2" />
+                        <NavMain items={adminNavItems} title="Manajemen" />
+                    </>
+                )}
             </SidebarContent>
 
             <SidebarFooter>

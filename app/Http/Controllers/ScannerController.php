@@ -45,13 +45,22 @@ class ScannerController extends Controller
             }
         }
 
-        // 2. Parse User ID from QR
+        // 2. Parse User ID and Token from QR
         $qrData = explode(':', $request->qr_code);
-        if (count($qrData) != 2 || $qrData[0] !== 'user') {
-            return back()->with('error', '❌ Format QR Code tidak dikenali.');
+        if (count($qrData) != 3 || $qrData[0] !== 'user') {
+            return back()->with('error', '❌ Format QR Code tidak dikenali atau usang.');
         }
 
         $userId = $qrData[1];
+        $token = $qrData[2];
+
+        // Validasi Token dari Cache
+        $cachedToken = \Illuminate\Support\Facades\Cache::get("qr_token_{$userId}");
+
+        if (!$cachedToken || $cachedToken !== $token) {
+            return back()->with('error', '❌ QR Code kedaluwarsa atau tidak valid. Silakan refresh halaman QR Anda.');
+        }
+
         $user = User::with('shift')->find($userId);
 
         if (!$user) {

@@ -52,9 +52,9 @@ export function DataTableRow({ children, className = "" }: { children: React.Rea
     );
 }
 
-export function DataTableCell({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+export function DataTableCell({ children, className = "", colSpan }: { children: React.ReactNode; className?: string; colSpan?: number }) {
     return (
-        <td className={`p-4 align-middle [&:has([role=checkbox])]:pr-0 ${className}`}>
+        <td className={`p-4 align-middle [&:has([role=checkbox])]:pr-0 ${className}`} colSpan={colSpan}>
             {children}
         </td>
     );
