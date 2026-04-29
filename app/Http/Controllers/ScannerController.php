@@ -9,6 +9,7 @@ use App\Models\AttendanceScan;
 use App\Models\GlobalSetting;
 use App\Models\User;
 use Carbon\Carbon;
+use App\Events\AttendanceScanned;
 
 class ScannerController extends Controller
 {
@@ -98,6 +99,9 @@ class ScannerController extends Controller
                 'check_in_status' => 'Berhasil Masuk',
             ]);
 
+
+            event(new AttendanceScanned("{$user->name} Baru Saja Masuk"));
+
             return back()->with('success', "✅ Berhasil Masuk: {$user->name}. Selamat bekerja!");
         }
 
@@ -111,7 +115,9 @@ class ScannerController extends Controller
                 'check_out' => $nowTime,
                 'check_out_status' => 'Berhasil Pulang',
             ]);
-
+            
+            event(new AttendanceScanned("{$user->name} Baru Saja Pulang"));
+            
             return back()->with('success', "✅ Berhasil Pulang: {$user->name}. Hati-hati dijalan!");
         }
 

@@ -1,4 +1,5 @@
-import { Head } from '@inertiajs/react';
+import { Head,router } from '@inertiajs/react';
+import { useState, useEffect } from 'react';
 import QRCodeOriginal from 'react-qr-code';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { DataTable, DataTableRow, DataTableCell } from '@/components/data-table';
@@ -24,7 +25,45 @@ interface Props {
     qrToken: string;
 }
 
+
 export default function UserDashboard({ user, attendances, qrToken }: Props) {
+
+    const getInitialTimeLeft = () => {
+
+        const storedToken = localStorage.getItem('qr_token');
+        const storedExpiresAt = localStorage.getItem('qr_expires_at');
+
+
+        if (storedToken === qrToken && storedExpiresAt) {
+            const remaining = Math.floor((parseInt (storedExpiresAt) - Date.now()) / 1000 );
+            return remaining > 0 ? remaining : 0;
+        }
+
+        localStorage.setItem('qr_token', qrToken);
+        localStorage.setItem('qr_expires_at', (Date.now() + 60 * 1000).toString());
+        return 60;        
+    }
+
+    const [timeLeft, setTimeLeft] = useState(() => getInitialTimeLeft());
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setTimeLeft((prevTime) => {
+                if (prevTime <= 1) {
+                    router.reload({
+                        only: ['qrToken'],
+                        onSuccess: () => {
+                            setTimeLeft(60);
+                        }
+                    });
+                    return 0;
+                }
+                return prevTime - 1;
+            });
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, []);
     return (
         <div className="p-6 flex flex-col items-center min-h-[80vh] space-y-8 max-w-4xl mx-auto w-full">
             <Head title="Dashboard Karyawan" />
@@ -40,9 +79,9 @@ export default function UserDashboard({ user, attendances, qrToken }: Props) {
                 </CardHeader>
                 <CardContent className="flex flex-col items-center justify-center p-6 bg-white rounded-b-xl space-y-4">
                     <QRCode value={`user:${user.id}:${qrToken}`} size={200} />
-                    <p className="text-xs text-center text-muted-foreground mt-4">
-                        Jika QR Code kedaluwarsa saat memindai, silakan refresh halaman ini.
-                    </p>
+                    <div className='mt-4 text-sm font-medium text-gray-500'>
+                        Kode Akan Kedaluarsa Dalam <span className='text-red-500 font-bold'>{timeLeft}</span> detik
+                    </div>
                 </CardContent>
             </Card>
 

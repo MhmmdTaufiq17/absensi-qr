@@ -1,4 +1,5 @@
-import { Head } from '@inertiajs/react';
+import { Head,router } from '@inertiajs/react';
+import { useEchoPublic } from '@laravel/echo-react';
 import { DataTable, DataTableRow, DataTableCell } from '@/components/data-table';
 
 interface User {
@@ -21,6 +22,10 @@ interface Props {
 }
 
 export default function AttendancesIndex({ attendances }: Props) {
+    useEchoPublic('attendance', '.scan.created', () => {
+        router.reload({ only: ['attendances'] });
+    });
+
     return (
         <div className="p-6 space-y-6">
             <Head title="Data Absensi" />
