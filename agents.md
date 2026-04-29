@@ -4,7 +4,7 @@ Sistem Manajemen Kehadiran Berbasis QR Code dengan Fitur Window-Based Precision 
 
 ## 🚀 Fitur Utama
 - **QR Code Attendance**: Setiap user memiliki QR Code unik untuk dipindai di Scaner.
-- **Dynamic Expiring QR**: QR Code dibekali *timestamp* otomatis yang akan kedaluwarsa dalam 60 detik. Dilengkapi fitur **Auto-Regenerate** di sisi klien menggunakan Inertia Partial Reload dan Sinkronisasi `localStorage` sehingga QR Code memperbarui dirinya sendiri tanpa perlu refresh halaman manual.
+- **Dynamic Expiring QR**: QR Code dibekali *timestamp* otomatis yang akan kedaluwarsa dalam 60 detik. Ketika kedaluwarsa, QR Code akan di-*blur* otomatis dan user harus menekan tombol **"Generate Ulang QR"** untuk mendapatkan token baru. Regenerasi dilakukan secara *manual on-demand* (bukan auto) menggunakan Inertia Partial Reload + `?regenerate=1` yang memaksa backend menghapus cache token lama dan membuat token baru yang benar-benar *fresh*. Sisa waktu token disinkronisasi via `localStorage` agar tidak ter-reset saat user me-*refresh* halaman.
 - **Window-Based Shifts**: Pembatasan waktu absen yang presisi (Jam Masuk & Jam Pulang yang bisa diatur window-nya).
 - **Admin Dashboard**: Monitoring sistem, manajemen user, pengaturan jadwal, dan data rekap absen secara **Real-Time**. Tabel absen ter-update otomatis ketika ada *scan* baru menggunakan WebSockets.
 - **Professional CRUD**: Manajemen User dan Shift yang bersih dan responsif.

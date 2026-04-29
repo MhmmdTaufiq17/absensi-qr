@@ -17,13 +17,13 @@ class ScannerController extends Controller
     {
         $setting = GlobalSetting::first();
         $isScannerActive = true;
-        
+
         if ($setting && $setting->scanner_active_start && $setting->scanner_active_end) {
             $now = Carbon::now()->format('H:i:s');
             if ($now < $setting->scanner_active_start || $now > $setting->scanner_active_end) {
                 $isScannerActive = false;
             }
-        }
+        }   
 
         return Inertia::render('Scanner/Scan', [
             'isScannerActive' => $isScannerActive,
@@ -115,9 +115,9 @@ class ScannerController extends Controller
                 'check_out' => $nowTime,
                 'check_out_status' => 'Berhasil Pulang',
             ]);
-            
+
             event(new AttendanceScanned("{$user->name} Baru Saja Pulang"));
-            
+
             return back()->with('success', "✅ Berhasil Pulang: {$user->name}. Hati-hati dijalan!");
         }
 
